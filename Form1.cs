@@ -16,6 +16,7 @@ namespace SimplePaint
         private ToolType currentTool = ToolType.Line;  // 현재선택된도형
         private Color currentColor = Color.Black;      // 현재색상
         private int currentLineWidth = 2;              // 현재선두께
+        private float zoomFactor = 1.0f;               // 현재줌배율
 
         public Form1()
         {
@@ -46,18 +47,30 @@ namespace SimplePaint
             // 파일버튼이벤트연결
             btnOpenFile.Click += btnOpenFile_Click;
             // btnSaveFile은 Designer에서 이미 연결됨
+            // 줌버튼이벤트연결
+            btnZoomIn.Click += btnZoomIn_Click;
+            btnZoomOut.Click += btnZoomOut_Click;
+            btnZoomReset.Click += btnZoomReset_Click;
         }
 
         private void PicCanvas_MouseDown(object sender, MouseEventArgs e)
         {
             isDrawing = true;             // 드래그시작
-            startPoint = e.Location;      // 시작점저장
+            // 줌 배율을 고려한 실제 좌표 계산
+            startPoint = new Point(
+                (int)(e.Location.X / zoomFactor),
+                (int)(e.Location.Y / zoomFactor)
+            );
         }
 
         private void PicCanvas_MouseMove(object sender, MouseEventArgs e)
         {
             if (!isDrawing) return;       // 그림그리기와상관없는마우스움직임은무시
-            endPoint = e.Location;        // 현재위치갱신
+            // 줌 배율을 고려한 실제 좌표 계산
+            endPoint = new Point(
+                (int)(e.Location.X / zoomFactor),
+                (int)(e.Location.Y / zoomFactor)
+            );
             // picCanvas를다시그려라(Paint 이벤트를발생시킨다)
             picCanvas.Invalidate();       // 화면다시그리기(미리보기)
         }
@@ -66,7 +79,11 @@ namespace SimplePaint
         {
             if (!isDrawing) return;     // 그림그리기와상관없는마우스움직임은무시
             isDrawing = false;          // 드래그종료
-            endPoint = e.Location;
+            // 줌 배율을 고려한 실제 좌표 계산
+            endPoint = new Point(
+                (int)(e.Location.X / zoomFactor),
+                (int)(e.Location.Y / zoomFactor)
+            );
             // 실제비트맵에도형그리기(확정)
             using (Pen pen = new Pen(currentColor, currentLineWidth))
             {
@@ -78,6 +95,8 @@ namespace SimplePaint
         private void PicCanvas_Paint(object sender, PaintEventArgs e)
         {
             if (!isDrawing) return;
+            // 줌 배율 적용
+            e.Graphics.ScaleTransform(zoomFactor, zoomFactor);
             // 점선펜(미리보기용)
             using (Pen previewPen = new Pen(currentColor, currentLineWidth))
             {
@@ -221,8 +240,9 @@ namespace SimplePaint
                         canvasGraphics.DrawImage(loadedImage, 0, 0);
                         loadedImage.Dispose();
 
-                        // PictureBox에 이미지 설정 (SizeMode가 AutoSize라서 자동으로 크기 조정됨)
-                        picCanvas.Image = canvasBitmap;
+                        // 줌 초기화
+                        zoomFactor = 1.0f;
+                        ApplyZoom();
 
                         MessageBox.Show("이미지를 불러왔습니다!", "열기 성공", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
@@ -231,6 +251,45 @@ namespace SimplePaint
                         MessageBox.Show($"이미지 열기 실패: {ex.Message}", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
+            }
+        }
+
+        private void btnZoomIn_Click(object sender, EventArgs e)
+        {
+            if (zoomFactor < 5.0f)  // 최대 500%
+            {
+                zoomFactor += 0.25f;
+                ApplyZoom();
+            }
+        }
+
+        private void btnZoomOut_Click(object sender, EventArgs e)
+        {
+            if (zoomFactor > 0.25f)  // 최소 25%
+            {
+                zoomFactor -= 0.25f;
+                ApplyZoom();
+            }
+        }
+
+        private void btnZoomReset_Click(object sender, EventArgs e)
+        {
+            zoomFactor = 1.0f;
+            ApplyZoom();
+        }
+
+        private void ApplyZoom()
+        {
+            if (canvasBitmap != null)
+            {
+                // PictureBox 크기를 줌 배율에 맞춰 조정
+                picCanvas.Width = (int)(canvasBitmap.Width * zoomFactor);
+                picCanvas.Height = (int)(canvasBitmap.Height * zoomFactor);
+                picCanvas.Image = canvasBitmap;
+
+                // 줌 레이블 업데이트
+                lblZoom.Text = $"{(int)(zoomFactor * 100)}%";
+                btnZoomReset.Text = $"{(int)(zoomFactor * 100)}%";
             }
         }
     }

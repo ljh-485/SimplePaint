@@ -40,6 +40,10 @@
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             btnOpenFile = new Button();
             btnSaveFile = new Button();
+            btnZoomIn = new Button();
+            btnZoomOut = new Button();
+            btnZoomReset = new Button();
+            lblZoom = new Label();
             panelCanvas = new Panel();
             picCanvas = new PictureBox();
             saveFileDialog1 = new SaveFileDialog();
@@ -170,6 +174,49 @@
             btnSaveFile.UseVisualStyleBackColor = false;
             btnSaveFile.Click += btnSaveFile_Click;
             // 
+            // btnZoomIn
+            // 
+            btnZoomIn.BackColor = Color.LightGreen;
+            btnZoomIn.Font = new Font("맑은 고딕", 12F, FontStyle.Bold);
+            btnZoomIn.Location = new Point(857, 40);
+            btnZoomIn.Name = "btnZoomIn";
+            btnZoomIn.Size = new Size(70, 70);
+            btnZoomIn.TabIndex = 8;
+            btnZoomIn.Text = "+";
+            btnZoomIn.UseVisualStyleBackColor = false;
+            // 
+            // btnZoomOut
+            // 
+            btnZoomOut.BackColor = Color.LightCoral;
+            btnZoomOut.Font = new Font("맑은 고딕", 12F, FontStyle.Bold);
+            btnZoomOut.Location = new Point(933, 40);
+            btnZoomOut.Name = "btnZoomOut";
+            btnZoomOut.Size = new Size(70, 70);
+            btnZoomOut.TabIndex = 9;
+            btnZoomOut.Text = "-";
+            btnZoomOut.UseVisualStyleBackColor = false;
+            // 
+            // btnZoomReset
+            // 
+            btnZoomReset.BackColor = Color.LightYellow;
+            btnZoomReset.Font = new Font("맑은 고딕", 9F);
+            btnZoomReset.Location = new Point(1009, 40);
+            btnZoomReset.Name = "btnZoomReset";
+            btnZoomReset.Size = new Size(70, 70);
+            btnZoomReset.TabIndex = 10;
+            btnZoomReset.Text = "100%";
+            btnZoomReset.UseVisualStyleBackColor = false;
+            // 
+            // lblZoom
+            // 
+            lblZoom.AutoSize = true;
+            lblZoom.Font = new Font("맑은 고딕", 10F, FontStyle.Bold);
+            lblZoom.Location = new Point(1085, 65);
+            lblZoom.Name = "lblZoom";
+            lblZoom.Size = new Size(63, 37);
+            lblZoom.TabIndex = 11;
+            lblZoom.Text = "100%";
+            // 
             // panelCanvas
             // 
             panelCanvas.AutoScroll = true;
@@ -186,7 +233,7 @@
             picCanvas.Location = new Point(0, 0);
             picCanvas.Name = "picCanvas";
             picCanvas.Size = new Size(1083, 627);
-            picCanvas.SizeMode = PictureBoxSizeMode.AutoSize;
+            picCanvas.SizeMode = PictureBoxSizeMode.StretchImage;
             picCanvas.TabIndex = 6;
             picCanvas.TabStop = false;
             // 
@@ -195,6 +242,10 @@
             AutoScaleDimensions = new SizeF(14F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1166, 925);
+            Controls.Add(lblZoom);
+            Controls.Add(btnZoomReset);
+            Controls.Add(btnZoomOut);
+            Controls.Add(btnZoomIn);
             Controls.Add(panelCanvas);
             Controls.Add(btnSaveFile);
             Controls.Add(btnOpenFile);
@@ -230,6 +281,10 @@
         private Button btnSaveFile;
         private Button btnCircle;
         private Button btnRactangle;
+        private Button btnZoomIn;
+        private Button btnZoomOut;
+        private Button btnZoomReset;
+        private Label lblZoom;
         private Panel panelCanvas;
         private PictureBox picCanvas;
         private SaveFileDialog saveFileDialog1;
