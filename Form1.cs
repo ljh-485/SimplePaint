@@ -221,10 +221,8 @@ namespace SimplePaint
                         canvasGraphics.DrawImage(loadedImage, 0, 0);
                         loadedImage.Dispose();
 
-                        // PictureBox 크기 조정
+                        // PictureBox에 이미지 설정 (SizeMode가 AutoSize라서 자동으로 크기 조정됨)
                         picCanvas.Image = canvasBitmap;
-                        picCanvas.Width = canvasBitmap.Width;
-                        picCanvas.Height = canvasBitmap.Height;
 
                         MessageBox.Show("이미지를 불러왔습니다!", "열기 성공", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
