@@ -213,7 +213,7 @@
             lblZoom.Font = new Font("맑은 고딕", 10F, FontStyle.Bold);
             lblZoom.Location = new Point(1085, 65);
             lblZoom.Name = "lblZoom";
-            lblZoom.Size = new Size(63, 37);
+            lblZoom.Size = new Size(89, 37);
             lblZoom.TabIndex = 11;
             lblZoom.Text = "100%";
             // 
@@ -241,7 +241,7 @@
             // 
             AutoScaleDimensions = new SizeF(14F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1166, 925);
+            ClientSize = new Size(1180, 925);
             Controls.Add(lblZoom);
             Controls.Add(btnZoomReset);
             Controls.Add(btnZoomOut);
@@ -261,7 +261,6 @@
             ((System.ComponentModel.ISupportInitialize)trbLineWidth).EndInit();
             groupBox2.ResumeLayout(false);
             panelCanvas.ResumeLayout(false);
-            panelCanvas.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picCanvas).EndInit();
             ResumeLayout(false);
             PerformLayout();
