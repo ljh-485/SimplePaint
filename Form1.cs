@@ -85,18 +85,39 @@ namespace SimplePaint
 
         private void btnLine_Click(object sender, EventArgs e)
         {
+            currentTool = ToolType.Line;
         }
 
         private void btnRectangle_Click(object sender, EventArgs e)
         {
+            currentTool = ToolType.Rectangle;
         }
 
         private void btnCircle_Click(object sender, EventArgs e)
         {
+            currentTool = ToolType.Circle;
         }
 
         private void cmbColor_SelectedIndexChanged(object sender, EventArgs e)
         {
+            switch (cmbColor.SelectedIndex)
+            {
+                case 0: // Black 검정
+                    currentColor = Color.Black;
+                    break;
+                case 1: // Red 빨강
+                    currentColor = Color.Red;
+                    break;
+                case 2: // Blue 파랑
+                    currentColor = Color.Blue;
+                    break;
+                case 3: // Green 녹색
+                    currentColor = Color.Green;
+                    break;
+                default:
+                    currentColor = Color.Black;
+                    break;
+            }
         }
 
         private void trbLineWidth_ValueChanged(object sender, EventArgs e)
