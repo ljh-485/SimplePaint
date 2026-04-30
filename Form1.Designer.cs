@@ -162,7 +162,7 @@
             btnSaveFile.BackColor = Color.LightBlue;
             btnSaveFile.Location = new Point(981, 143);
             btnSaveFile.Name = "btnSaveFile";
-            btnSaveFile.Size = new Size(122, 110);
+            btnSaveFile.Size = new Size(117, 110);
             btnSaveFile.TabIndex = 5;
             btnSaveFile.Text = "저장";
             btnSaveFile.UseVisualStyleBackColor = false;
