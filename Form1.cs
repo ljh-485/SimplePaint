@@ -43,6 +43,9 @@ namespace SimplePaint
             trbLineWidth.Maximum = 10;   // 최대값
             trbLineWidth.Value = 2;
             trbLineWidth.ValueChanged += trbLineWidth_ValueChanged;
+            // 파일버튼이벤트연결
+            btnOpenFile.Click += btnOpenFile_Click;
+            // btnSaveFile은 Designer에서 이미 연결됨
         }
 
         private void PicCanvas_MouseDown(object sender, MouseEventArgs e)
@@ -122,6 +125,7 @@ namespace SimplePaint
 
         private void trbLineWidth_ValueChanged(object sender, EventArgs e)
         {
+            currentLineWidth = trbLineWidth.Value;
         }
 
         private void DrawShape(Graphics g, Pen pen, Point p1, Point p2)
@@ -149,6 +153,87 @@ namespace SimplePaint
                 Math.Abs(p1.X - p2.X),
                 Math.Abs(p1.Y - p2.Y)
             );
+        }
+
+        private void btnSaveFile_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveDialog = new SaveFileDialog())
+            {
+                saveDialog.Filter = "이미지 파일|*.png";
+                saveDialog.Title = "그림 저장 (PNG, JPG, BMP 3가지 포맷으로 저장됨)";
+                saveDialog.FileName = "내그림";
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // 확장자 제거하고 기본 파일 경로 얻기
+                    string filePath = saveDialog.FileName;
+                    string directory = System.IO.Path.GetDirectoryName(filePath);
+                    string fileNameWithoutExt = System.IO.Path.GetFileNameWithoutExtension(filePath);
+                    string basePath = System.IO.Path.Combine(directory, fileNameWithoutExt);
+
+                    try
+                    {
+                        // PNG로 저장
+                        canvasBitmap.Save(basePath + ".png", ImageFormat.Png);
+
+                        // JPG로 저장
+                        canvasBitmap.Save(basePath + ".jpg", ImageFormat.Jpeg);
+
+                        // BMP로 저장
+                        canvasBitmap.Save(basePath + ".bmp", ImageFormat.Bmp);
+
+                        MessageBox.Show($"저장 완료!\n\n{fileNameWithoutExt}.png\n{fileNameWithoutExt}.jpg\n{fileNameWithoutExt}.bmp", 
+                                      "저장 성공", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"저장 실패: {ex.Message}", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void btnOpenFile_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openDialog = new OpenFileDialog())
+            {
+                openDialog.Filter = "이미지 파일|*.png;*.jpg;*.jpeg;*.bmp;*.gif|모든 파일|*.*";
+                openDialog.Title = "이미지 열기";
+
+                if (openDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        // 기존 리소스 해제
+                        if (canvasGraphics != null)
+                        {
+                            canvasGraphics.Dispose();
+                        }
+
+                        // 이미지 파일 로드
+                        Bitmap loadedImage = new Bitmap(openDialog.FileName);
+
+                        // 새 비트맵 생성 (로드된 이미지 크기로)
+                        canvasBitmap = new Bitmap(loadedImage.Width, loadedImage.Height);
+                        canvasGraphics = Graphics.FromImage(canvasBitmap);
+
+                        // 로드된 이미지를 캔버스에 그리기
+                        canvasGraphics.DrawImage(loadedImage, 0, 0);
+                        loadedImage.Dispose();
+
+                        // PictureBox 크기 조정
+                        picCanvas.Image = canvasBitmap;
+                        picCanvas.Width = canvasBitmap.Width;
+                        picCanvas.Height = canvasBitmap.Height;
+
+                        MessageBox.Show("이미지를 불러왔습니다!", "열기 성공", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"이미지 열기 실패: {ex.Message}", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
         }
     }
 }

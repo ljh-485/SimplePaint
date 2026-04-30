@@ -41,6 +41,7 @@
             btnOpenFile = new Button();
             btnSaveFile = new Button();
             picCanvas = new PictureBox();
+            saveFileDialog1 = new SaveFileDialog();
             groupBox1.SuspendLayout();
             groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trbLineWidth).BeginInit();
@@ -165,6 +166,7 @@
             btnSaveFile.TabIndex = 5;
             btnSaveFile.Text = "저장";
             btnSaveFile.UseVisualStyleBackColor = false;
+            btnSaveFile.Click += btnSaveFile_Click;
             // 
             // picCanvas
             // 
@@ -215,5 +217,6 @@
         private Button btnCircle;
         private Button btnRactangle;
         private PictureBox picCanvas;
+        private SaveFileDialog saveFileDialog1;
     }
 }
