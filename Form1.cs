@@ -61,7 +61,7 @@ namespace SimplePaint
             // picCanvas를다시그려라(Paint 이벤트를발생시킨다)
             picCanvas.Invalidate();       // 화면다시그리기(미리보기)
         }
-
+        
         private void PicCanvas_MouseUp(object sender, MouseEventArgs e)
         {
             if (!isDrawing) return;     // 그림그리기와상관없는마우스움직임은무시
