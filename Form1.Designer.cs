@@ -168,6 +168,8 @@
             // 
             // picCanvas
             // 
+            picCanvas.BackColor = Color.White;
+            picCanvas.BorderStyle = BorderStyle.FixedSingle;
             picCanvas.Location = new Point(40, 275);
             picCanvas.Name = "picCanvas";
             picCanvas.Size = new Size(1083, 627);
@@ -178,7 +180,7 @@
             // 
             AutoScaleDimensions = new SizeF(14F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1169, 896);
+            ClientSize = new Size(1166, 925);
             Controls.Add(picCanvas);
             Controls.Add(btnSaveFile);
             Controls.Add(btnOpenFile);
